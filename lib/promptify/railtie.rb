@@ -16,13 +16,19 @@ module Promptify
       old_prompt = Pry.config.prompt
 
       Pry.config.prompt = [
-        proc { |*a| "[#{app_name}][#{environment}]> " },
-        proc { |*a| "[#{app_name}][#{environment}]> " },
+        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
+        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
       ]
     end
 
     def app_name
       Rails.application.class.parent_name.underscore.dasherize
+    end
+
+    def heroku_app
+      return unless ENV["HEROKU_APP_NAME"]
+
+      "[#{Pry::Helpers::Text.cyan(ENV['HEROKU_APP_NAME'])}]"
     end
 
     def environment
