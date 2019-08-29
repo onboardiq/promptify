@@ -1,6 +1,10 @@
 # Promptify
 
-Sets pry as the default Rails console on staging/production and prepend `[STAGING/AppName]` or `[PRODUCTION/AppName]` to the prompt.
+Sets pry as the default Rails console on and prepend environment (i.e. `[app_name][STAGING]` or `[app_name][PRODUCTION]`) to the prompt.
+
+As an example on a `PartnerMs` rails app:
+
+![Promptify example console](/assets/promptify-example.png)
 
 ## Installation
 
@@ -26,4 +30,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/fountain/promptify.
+Bug reports and pull requests are welcome on GitHub at https://github.com/onboardiq/promptify.

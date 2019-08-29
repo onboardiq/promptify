@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Simple rails console enhancements"
   spec.summary = "Colorize staging/production rails console prompts with environment details"
-  spec.homepage = "https://github.com/fountain/promptify"
+  spec.homepage = "https://github.com/onboardiq/promptify"
   spec.license = "MIT"
 
   spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do

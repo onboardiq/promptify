@@ -3,6 +3,8 @@ require "pry-rails"
 module Promptify
   class Railtie < Rails::Railtie
     initializer "promptify.initialize" do |app|
+      Pry.config.should_load_plugins = false
+
       Pry.config.prompt_name = app_name
 
       show_pretty_prompt
@@ -14,8 +16,8 @@ module Promptify
       old_prompt = Pry.config.prompt
 
       Pry.config.prompt = [
-        proc { |*a| "[#{environment}/#{app_name}] #{old_prompt.first.call(*a)}" },
-        proc { |*a| "[#{environment}/#{app_name}] #{old_prompt.second.call(*a)}" },
+        proc { |*a| "[#{app_name}][#{environment}]> " },
+        proc { |*a| "[#{app_name}][#{environment}]> " },
       ]
     end
 
@@ -25,14 +27,17 @@ module Promptify
 
     def environment
       # Distinguish "preview" apps from production/staging apps.
-      if Rails.application.config.preview_app
+      if Rails.application.config.try(:preview_app)
         Pry::Helpers::Text.yellow("PREVIEW")
       elsif Rails.env.staging?
         Pry::Helpers::Text.yellow(Rails.env.upcase)
       elsif Rails.env.production?
         Pry::Helpers::Text.red(Rails.env.upcase)
+      elsif Rails.env.development?
+        # "DEVELOPMENT" was too long to always display locally.
+        Pry::Helpers::Text.white("DEV")
       else
-        # Development, test, etc.
+        # Test, etc.
         Pry::Helpers::Text.white(Rails.env.upcase)
       end
     end
