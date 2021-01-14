@@ -22,7 +22,7 @@ module Promptify
     end
 
     def app_name
-      Rails.application.class.parent_name.underscore.dasherize
+      Rails.application.class.parent_module_name.underscore.dasherize
     end
 
     def heroku_app
