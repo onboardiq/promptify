@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    promptify (1.0.1)
+    promptify (1.0.2)
       pry
       pry-rails
 

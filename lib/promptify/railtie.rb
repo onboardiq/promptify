@@ -15,10 +15,17 @@ module Promptify
     def show_pretty_prompt
       old_prompt = Pry.config.prompt
 
-      Pry.config.prompt = [
-        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
-        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
-      ]
+      if Pry::VERSION >= "0.13.0"
+        return Pry::Prompt[:promptify] if Pry::Prompt[:promptify]
+
+        Pry.prompt = Pry::Prompt.new(
+          :promptify,
+          "Simple Rails console enhancements",
+          new_prompt,
+        )
+      else
+        Pry.config.prompt = new_prompt
+      end
     end
 
     def app_name
@@ -34,6 +41,13 @@ module Promptify
       return unless ENV["HEROKU_APP_NAME"]
 
       "[#{Pry::Helpers::Text.cyan(ENV['HEROKU_APP_NAME'])}]"
+    end
+
+    def new_prompt
+      [
+        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
+        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
+      ]
     end
 
     def environment
