@@ -23,8 +23,8 @@ module Promptify
 
     def app_name
       # ActiveSupport's `Module#parent_name` is deprecated in 6.1+.
-      if Rails.application.respond_to?(:parent_module_name)
-        Rails.application.class.parent_module_name.underscore.dasherize
+      if Rails.application.class.respond_to?(:module_parent_name)
+        Rails.application.class.module_parent_name.underscore.dasherize
       else
         Rails.application.class.parent_name.underscore.dasherize
       end
