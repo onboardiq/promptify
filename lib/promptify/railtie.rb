@@ -15,20 +15,39 @@ module Promptify
     def show_pretty_prompt
       old_prompt = Pry.config.prompt
 
-      Pry.config.prompt = [
-        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
-        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
-      ]
+      if Pry::VERSION >= "0.13.0"
+        return Pry::Prompt[:promptify] if Pry::Prompt[:promptify]
+
+        Pry.prompt = Pry::Prompt.new(
+          :promptify,
+          "Simple Rails console enhancements",
+          new_prompt,
+        )
+      else
+        Pry.config.prompt = new_prompt
+      end
     end
 
     def app_name
-      Rails.application.class.parent_name.underscore.dasherize
+      # ActiveSupport's `Module#parent_name` is deprecated in 6.1+.
+      if Rails.application.class.respond_to?(:module_parent_name)
+        Rails.application.class.module_parent_name.underscore.dasherize
+      else
+        Rails.application.class.parent_name.underscore.dasherize
+      end
     end
 
     def heroku_app
       return unless ENV["HEROKU_APP_NAME"]
 
       "[#{Pry::Helpers::Text.cyan(ENV['HEROKU_APP_NAME'])}]"
+    end
+
+    def new_prompt
+      [
+        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
+        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
+      ]
     end
 
     def environment
