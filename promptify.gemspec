@@ -8,10 +8,17 @@ Gem::Specification.new do |spec|
   spec.authors = ["Joey Cody"]
   spec.email = ["joey@fountain.com"]
 
-  spec.summary = "Simple rails console enhancements"
   spec.summary = "Colorize staging/production rails console prompts with environment details"
   spec.homepage = "https://github.com/onboardiq/promptify"
   spec.license = "MIT"
+
+  spec.metadata = {
+    "bug_tracker_uri"   => "https://github.com/onboardiq/promptify/issues",
+    "changelog_uri"     => "https://github.com/onboardiq/promptify",
+    "documentation_uri" => "https://github.com/onboardiq/promptify",
+    "homepage_uri"      => "https://github.com/onboardiq/promptify",
+    "source_code_uri"   => "https://github.com/onboardiq/promptify",
+  }
 
   spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
