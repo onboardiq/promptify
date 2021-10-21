@@ -57,7 +57,7 @@ module Promptify
       elsif Rails.env.staging?
         Pry::Helpers::Text.yellow(Rails.env.upcase)
       elsif Rails.env.production?
-        Pry::Helpers::Text.red(Rails.env.upcase)
+        Pry::Helpers::Text.red("#{ProjectHost.get.split('.').first&.upcase} #{Rails.env.upcase}")
       elsif Rails.env.development?
         # "DEVELOPMENT" was too long to always display locally.
         Pry::Helpers::Text.white("DEV")
