@@ -43,6 +43,12 @@ module Promptify
       "[#{Pry::Helpers::Text.cyan(ENV['HEROKU_APP_NAME'])}]"
     end
 
+    def tenant_app
+      return "" unless ENV["TENANT"]
+
+      ENV['TENANT'].upcase + " "
+    end
+
     def new_prompt
       [
         proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
@@ -57,7 +63,7 @@ module Promptify
       elsif Rails.env.staging?
         Pry::Helpers::Text.yellow(Rails.env.upcase)
       elsif Rails.env.production?
-        Pry::Helpers::Text.red("#{ProjectHost.get.split('.').first&.upcase} #{Rails.env.upcase}")
+        Pry::Helpers::Text.red("#{tenant_app}#{Rails.env.upcase}")
       elsif Rails.env.development?
         # "DEVELOPMENT" was too long to always display locally.
         Pry::Helpers::Text.white("DEV")
