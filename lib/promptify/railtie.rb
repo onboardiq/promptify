@@ -37,16 +37,16 @@ module Promptify
       end
     end
 
-    def heroku_app
-      return unless ENV["HEROKU_APP_NAME"]
-
-      "[#{Pry::Helpers::Text.cyan(ENV['HEROKU_APP_NAME'])}]"
+    def tenant_app
+      return unless ENV["HEROKU_APP_NAME"] || ENV["TENANT"]
+      name = ENV["HEROKU_APP_NAME"] || ENV["TENANT"]
+      "[#{Pry::Helpers::Text.cyan(name)}]"
     end
 
     def new_prompt
       [
-        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
-        proc { |*a| "[#{app_name}]#{heroku_app}[#{environment}]> " },
+        proc { |*a| "[#{app_name}]#{tenant_app}[#{environment}]> " },
+        proc { |*a| "[#{app_name}]#{tenant_app}[#{environment}]> " },
       ]
     end
 
