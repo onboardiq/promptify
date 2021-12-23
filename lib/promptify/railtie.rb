@@ -38,8 +38,8 @@ module Promptify
     end
 
     def tenant_app
-      return unless ENV["HEROKU_APP_NAME"] || ENV["TENANT"]
-      name = ENV["HEROKU_APP_NAME"] || ENV["TENANT"]
+      return unless ENV["TENANT"] || ENV["HEROKU_APP_NAME"]
+      name = ENV["TENANT"] || ENV["HEROKU_APP_NAME"]
       "[#{Pry::Helpers::Text.cyan(name)}]"
     end
 
